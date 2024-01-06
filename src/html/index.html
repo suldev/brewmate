@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Slowcat Labs</title>
+</head>
+<body>
+    <script src="../js/nav.js"></script>
+    <script src="../js/form.js"></script>
+    <script src="../js/recipe.js"></script>
+    <script src="../js/grain.js"></script>
+    <script src="../js/hops.js"></script>
+    <script src="../js/yeast.js"></script>
+    <script src="../js/bill.js"></script>
+    <nav>
+        <div class="nav-icon"><p>Slowcat Labs</p></div>
+        <input type="button" onclick="renderHomeSubNav()" id="button-home" class="nav-button" value="Home">
+        <input type="button" onclick="renderBrewmateSubNav()" id="button-brewmate" class="nav-button" value="Brewmate">
+    </nav>
+    <div id="sub-nav" class="sub-nav"></div>
+    <main>
+        <form id="main-form"></form>
+    </main>
+</body>
+</html>
