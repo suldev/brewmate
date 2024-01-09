@@ -11,11 +11,18 @@ function logit(textBox: HTMLInputElement) {
 function grainTableNewRow(tableID: string) {
     var table: SLHTMLTable = document.querySelector("#" + tableID);
     if(table === null) return;
-    // Enable type and weight cells
+    // Check and update current row
     var activeRowIndex = table.rows.length - 1;
     console.log(table.rows[activeRowIndex]);
-    (table.rows[activeRowIndex].cells[1].children[0] as HTMLSelectElement).disabled = false;
-    (table.rows[activeRowIndex].cells[2].children[0] as HTMLInputElement).disabled = false;
+    var grainComboBox = table.rows[activeRowIndex].cells[0].children[0] as HTMLSelectElement;
+    if(grainComboBox.value === "none") return;
+    grainComboBox.options[0].remove();
+    var typeComboBox = table.rows[activeRowIndex].cells[1].children[0] as HTMLSelectElement;
+    typeComboBox.options[0].remove();
+    typeComboBox.disabled = false;
+    var weightComboBox = table.rows[activeRowIndex].cells[2].children[0] as HTMLInputElement;
+    weightComboBox.value = "0";
+    weightComboBox.disabled = false;
     // Begin creating new row
     var row = document.createElement('tr')
     // Define grain cell
