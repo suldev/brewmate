@@ -1,62 +1,91 @@
 body {
-    background-color: #31a169;
+    background-color: #444;
     color: gainsboro;
     font-family: sans-serif;
     margin: 0px;
 }
-nav {
-    background-color: #11442c;
-    height: 50px;
-}
-.nav-icon {
-    height: 100%;
-    width: 16%;
-    font-size: 24px;
-    text-align: center;
+.nav {
+    display: flex;
+    background-color: #2175c4;
+    height: 70px;
     align-items: center;
-    padding-left: 6px;
-    display: flex;
-    float: left;
 }
-.nav-button {
-    display: flex;
-    float: left;
-    height: 100%;
+h1 {
+    margin-left: 16px;
     background-color: transparent;
-    color: gainsboro;
-    font-size: 18px;
-    padding: 6px;
-    border: 0px;
-}
-.nav-button:hover {
-    background-color: #2c4b3c;
-}
-.sub-nav {
-    padding-left: 18%;
-    height: 35px;
-    background-color: lightgray;
-}
-.sub-nav-button {
-    display: flex;
     float: left;
-    height: 100%;
-    background-color: transparent;
-    color: #11442c;
-    font-size: 16px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 0px;
-}
-.sub-nav-button:hover {
-    background-color: lightslategray;
 }
 main {
-    padding-left: 18%;
-    padding-right: 18%;
-    height: 100%;
-    display: flex;
+    margin: 1% 18% 0% 1%;
 }
-.spacer {
-    width: 25%;
-    height: 100%;
+#tocPanel {
+    width: 18%;
+    border-right: 1px solid #2175c4;
+    float: left;
+}
+#tocPanel ul {
+    list-style-type: none;
+    padding-left: 5%;
+}
+#tocPanel li {
+    margin-top: 1%;
+}
+#tocPanel a {
+    text-decoration: none;
+    color: gainsboro;
+}
+#tocPanel a:hover {
+    color: #2175c4
+}
+#mainForm {
+    display: inline;
+    float: left;
+    margin-left: 5%;
+}
+.inputTable {
+    border: 1px 0px 1px 0px solid gainsboro;
+    font-size: 16px;
+}
+.inputTable tr {
+
+}
+.inputTable {
+    border-collapse: collapse;
+    margin: 16px 0px 16px 0px;
+}
+.inputTable td,
+.inputTable th {
+    border: 1px solid gainsboro;
+    padding: 6px;
+}
+.inputTable tr:first-child th {
+    border-top: 0;
+}
+.inputTable tr:last-child td {
+    border-bottom: 0;
+}
+.inputTable tr td:first-child,
+.inputTable tr th:first-child {
+    border-left: 0;
+}
+.inputTable tr td:last-child,
+.inputTable tr th:last-child {
+    border-right: 0;
+}
+.comboBox {
+    font-size: 16px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.checkBox {
+    border-radius: 3px;
+    font-size: 16px;
 }

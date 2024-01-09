@@ -4,24 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Slowcat Labs</title>
+    <title>Brewmate</title>
 </head>
 <body>
-    <script src="../js/nav.js"></script>
-    <script src="../js/form.js"></script>
-    <script src="../js/recipe.js"></script>
+    <script src="../js/formHandler.js"></script>
     <script src="../js/grain.js"></script>
-    <script src="../js/hops.js"></script>
-    <script src="../js/yeast.js"></script>
-    <script src="../js/bill.js"></script>
-    <nav>
-        <div class="nav-icon"><p>Slowcat Labs</p></div>
-        <input type="button" onclick="renderHomeSubNav()" id="button-home" class="nav-button" value="Home">
-        <input type="button" onclick="renderBrewmateSubNav()" id="button-brewmate" class="nav-button" value="Brewmate">
-    </nav>
-    <div id="sub-nav" class="sub-nav"></div>
+    <div class="nav">
+        <h1>Brewmate</h1>
+    </div>
     <main>
-        <form id="main-form"></form>
+        <div id="tocPanel">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#Grain">Grain</a></li>
+                <li><a href="#Hops">Hops</a></li>
+                <li><a href="#Yeast">Yeast</a></li>
+                <li><a href="#Adjunts">Adjunts</a></li>
+            </ul>
+        </div>
+        <div id="mainForm">
+            <h2>Grain</h2>
+            <table id="grainTable" class="inputTable">
+                <tr>
+                    <th>Grain</th>
+                    <th>Type</th>
+                    <th>Weight (lb)</th>
+                </tr>
+                <tr>
+                    <td>
+                        <select name="grainComboBox" id="grainComboBox" class="comboBox" onchange="grainTableNewRow('grainTable')">
+                            <option value="none"></option>
+                            <option value="paleMalt2Row">Pale Malt (Brewers 2-row)</option>
+                            <option value="viennaMalt">Vienna Malt</option>
+                            <option value="20L">Crystal Malt 20L</option>
+                            <option value="munichMalt">Munich Malt</option>
+                            <option value="caraPilsDextrin">Cara-Pils Dextrin</option>
+                            <option value="melanoidenMalt">Melanoiden Malt</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="grainTypeComboBox" class="comboBox" disabled>
+                            <option value="none"></option>
+                            <option value="grain">Grain</option>
+                            <option value="extract">Extract</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" class="checkBox" onchange="logit(this)" disabled>
+                    </td>
+                </tr>
+            </table>
+            <label for="specialtyGrainsCheckbox">Specialty Grains</label>
+            <input type="checkbox" id="specialtyGrainsCheckbox" name="specialtyGrainsCheckbox">
+            <h2>Hops</h2>
+            <h2>Yeast</h2>
+            <h2>Adjunts</h2>
+        </div>
     </main>
 </body>
 </html>
