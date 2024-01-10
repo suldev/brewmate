@@ -7,8 +7,6 @@
     <title>Brewmate</title>
 </head>
 <body>
-    <script src="../js/formHandler.js"></script>
-    <script src="../js/grain.js"></script>
     <div class="nav">
         <h1>Brewmate</h1>
     </div>
@@ -31,28 +29,6 @@
                     <th>Type</th>
                     <th>Weight (lb)</th>
                 </tr>
-                <tr>
-                    <td>
-                        <select name="grainComboBox" id="grainComboBox" class="comboBox" onchange="grainTableNewRow('grainTable')">
-                            <option value="none"></option>
-                            <option value="paleMalt2Row">Pale Malt (Brewers 2-row)</option>
-                            <option value="viennaMalt">Vienna Malt</option>
-                            <option value="20L">Crystal Malt 20L</option>
-                            <option value="munichMalt">Munich Malt</option>
-                            <option value="caraPilsDextrin">Cara-Pils Dextrin</option>
-                            <option value="melanoidenMalt">Melanoiden Malt</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="grainTypeComboBox" class="comboBox" disabled>
-                            <option value="grain">Grain</option>
-                            <option value="extract">Extract</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="number" class="checkBox" onchange="logit(this)" disabled>
-                    </td>
-                </tr>
             </table>
             <label for="specialtyGrainsCheckbox">Specialty Grains</label>
             <input type="checkbox" id="specialtyGrainsCheckbox" name="specialtyGrainsCheckbox">
@@ -62,5 +38,7 @@
             <h2>Brew Day</h2>
         </div>
     </main>
+    <script src="../js/grain.js"></script>
+    <script src="../js/formHandler.js"></script>
 </body>
 </html>

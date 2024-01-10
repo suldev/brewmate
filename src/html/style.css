@@ -46,9 +46,6 @@ main {
     border: 1px 0px 1px 0px solid gainsboro;
     font-size: 16px;
 }
-.inputTable tr {
-
-}
 .inputTable {
     border-collapse: collapse;
     margin: 16px 0px 16px 0px;

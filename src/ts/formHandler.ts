@@ -1,5 +1,10 @@
 type SLHTMLTable = HTMLTableElement | null;
 
+function initializeForm() {
+    console.log("bork!");
+    grainTableNewRow();
+}
+
 function logit(textBox: HTMLInputElement) {
     console.log("hello!");
     var table: SLHTMLTable = document.querySelector("#grainTable");
@@ -8,21 +13,22 @@ function logit(textBox: HTMLInputElement) {
     }
 }
 
-function grainTableNewRow(tableID: string) {
-    var table: SLHTMLTable = document.querySelector("#" + tableID);
+function grainTableNewRow() {
+    var table: SLHTMLTable = document.querySelector("#grainTable");
     if(table === null) return;
     // Check and update current row
-    var activeRowIndex = table.rows.length - 1;
-    console.log(table.rows[activeRowIndex]);
-    var grainComboBox = table.rows[activeRowIndex].cells[0].children[0] as HTMLSelectElement;
-    if(grainComboBox.value === "none") return;
-    grainComboBox.options[0].remove();
-    var typeComboBox = table.rows[activeRowIndex].cells[1].children[0] as HTMLSelectElement;
-    typeComboBox.options[0].remove();
-    typeComboBox.disabled = false;
-    var weightComboBox = table.rows[activeRowIndex].cells[2].children[0] as HTMLInputElement;
-    weightComboBox.value = "0";
-    weightComboBox.disabled = false;
+    var preRowIndex: number = table.rows.length - 1;
+    if(preRowIndex > 0) {
+        var grainComboBox = table.rows[preRowIndex].cells[0].children[0] as HTMLSelectElement;
+        if(grainComboBox.value === "none") return;
+        grainComboBox.options[0].remove();
+        var typeComboBox = table.rows[preRowIndex].cells[1].children[0] as HTMLSelectElement;
+        typeComboBox.options[0].remove();
+        typeComboBox.disabled = false;
+        var weightComboBox = table.rows[preRowIndex].cells[2].children[0] as HTMLInputElement;
+        weightComboBox.value = "0";
+        weightComboBox.disabled = false;
+    }
     // Begin creating new row
     var row = document.createElement('tr')
     // Define grain cell
@@ -30,7 +36,7 @@ function grainTableNewRow(tableID: string) {
     var grainComboBox = document.createElement('select');
     grainComboBox.name = "grainComboBox";
     grainComboBox.className = "comboBox";
-    grainComboBox.onchange = function(){ grainTableNewRow(tableID) };
+    grainComboBox.onchange = function(){ grainTableNewRow() };
     for(var i = 0; i < grainNames.length; i++) {
         var grainOption = document.createElement('option');
         grainOption.value = grainValues[i];
@@ -63,3 +69,5 @@ function grainTableNewRow(tableID: string) {
     row.appendChild(weightCell);
     table.appendChild(row);
 }
+
+initializeForm();
