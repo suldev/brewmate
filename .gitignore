@@ -1,3 +1,6 @@
 node_modules
 package-lock.json
 src/js
+src/res/grains
+src/res/hops
+src/res/yeasts
