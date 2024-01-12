@@ -168,7 +168,7 @@ def main():
         for i in range(minHop, maxHop):
             pullHops(i)
     if '-P' in args:
-        print('building in-memory database... ', end='')
+        print('building in-memory database [Hops ]... ', end='')
         err = parseHops()
         if err == '': print('done')
         else: print('failed while parsing file', err)
@@ -188,7 +188,7 @@ def main():
         for i in range(minGrain, maxGrain):
             pullGrains(i)
     if '-G' in args:
-        print('building in-memory database... ', end='')
+        print('building in-memory database [Grain]... ', end='')
         err = parseGrains()
         if err == '' : print('done')
         else: print('failed while parsing file', err)
@@ -207,7 +207,7 @@ def main():
                     print('Failed to remove %s: %s' % (filepath, e))
         pullYeasts()
     if '-Y' in args:
-        print('building in-memory database... ', end='')
+        print('building in-memory database [Yeast]... ', end='')
         parseYeast()
         print('done')
 
