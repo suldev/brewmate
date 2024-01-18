@@ -4,3 +4,4 @@ src/js
 src/res/grains
 src/res/hops
 src/res/yeasts
+src/util/__pycache__
