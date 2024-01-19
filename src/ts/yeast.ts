@@ -1,10 +1,10 @@
-function formYeast() {
-    const form = document.getElementById("main-form") as HTMLElement | null;
-    hiLiteSubNav("b-hb-yeast");
-    if(form != null) {
-        form.innerHTML = "";
-        var p = document.createElement("p");
-        p.innerHTML = "Yeast";
-        form.appendChild(p);
-    }
+interface Yeast {
+    Name: string;
+    Type: string;
+    LoTemp: number; //F
+    HiTemp: number; //F
+    Attenuation: number;
+    Flocculation: string;
+    Notes: string | undefined;
+    BestFor: string | undefined;
 }
