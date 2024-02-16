@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "mongodb": "^6.3.0",
+    "require": "^2.4.20",
     "typescript": "^5.3.3"
   }
 }
