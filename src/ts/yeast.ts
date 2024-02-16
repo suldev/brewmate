@@ -1,10 +1,33 @@
-function formYeast() {
-    const form = document.getElementById("main-form") as HTMLElement | null;
-    hiLiteSubNav("b-hb-yeast");
-    if(form != null) {
-        form.innerHTML = "";
-        var p = document.createElement("p");
-        p.innerHTML = "Yeast";
-        form.appendChild(p);
+import { database } from './mongodb'
+export interface MongoYeast {
+    name: string;
+    type: string;
+    templo: string; //F
+    temphi: string; //F
+    attenuation: string;
+    flocculation: string;
+    note: string | undefined;
+    bestfor: string | undefined;
+}
+
+export async function getYeastNamesAsync(): Promise<string[] | undefined> {
+    const collection = database.collection<MongoYeast>("yeast");
+    if(await collection.countDocuments({}) <= 0) {
+        return undefined;
     }
+    const yeasts = await collection.find({}).toArray();
+    var yeastNames: string[] = [];
+    yeasts.forEach(element => {
+        yeastNames.push(element.name);
+    });
+    return yeastNames;
+}
+
+export async function getYeastAsync(Name: string): Promise<MongoYeast | undefined> {
+    const collection = database.collection<MongoYeast>("yeast");
+    if(await collection.countDocuments({}) <= 0) {
+        return undefined;
+    }
+    const yeast = await collection.findOne({name: Name}) as MongoYeast;
+    return yeast;
 }

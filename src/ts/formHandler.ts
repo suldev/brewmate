@@ -1,5 +1,5 @@
 type SLHTMLTable = HTMLTableElement | null;
-
+import { MongoGrain, getGrainAsync, getGrainNamesAsync } from "./grain";
 function initializeForm() {
     console.log("bork!");
     grainTableNewRow();
@@ -30,6 +30,7 @@ function grainTableNewRow() {
         weightComboBox.value = "0";
         weightComboBox.disabled = false;
     }
+    console.log('here');
     // Begin creating new row
     var row = document.createElement('tr')
     // Define grain cell
@@ -38,25 +39,32 @@ function grainTableNewRow() {
     grainComboBox.name = "grainComboBox";
     grainComboBox.className = "comboBox";
     grainComboBox.onchange = function(){ grainTableNewRow() };
-    for(var i = 0; i < grainNames.length; i++) {
-        var grainOption = document.createElement('option');
-        grainOption.value = grainValues[i];
-        grainOption.innerHTML = grainNames[i];
-        grainComboBox.appendChild(grainOption);
-    }
-    grainCell.appendChild(grainComboBox);
-    row.appendChild(grainCell);
-    // Define type cell
     var typeCell = document.createElement('td');
     var typeComboBox = document.createElement('select');
     typeComboBox.className = "comboBox";
-    for(var i = 0; i < typeNames.length; i++) {
-        var typeOption = document.createElement('option');
-        typeOption.value = typeValues[i];
-        typeOption.innerHTML = typeNames[i];
-        typeComboBox.appendChild(typeOption);
-    }
     typeComboBox.disabled = true;
+    var grains: string[] = [];
+    getGrainNamesAsync().then(
+        (names) => { 
+            if(names != undefined) {
+                grains = names; 
+            }
+        }
+    )
+    for(const grain of grains) {
+        var grainOption = document.createElement('option');
+        grainOption.value = grain;
+        grainOption.innerHTML = grain;
+        grainComboBox.appendChild(grainOption);
+    }
+    grains.forEach(item => {
+        var typeOption = document.createElement('option');
+        //typeOption.value = item.type;
+        //typeOption.innerHTML = item.type;
+        typeComboBox.appendChild(typeOption);
+    })
+    grainCell.appendChild(grainComboBox);
+    row.appendChild(grainCell);
     typeCell.appendChild(typeComboBox);
     row.appendChild(typeCell);
     // Define weight cell
@@ -99,24 +107,24 @@ function hopsTableNewRow() {
     speciesComboBox.name = "speciesComboBox";
     speciesComboBox.className = "comboBox";
     speciesComboBox.onchange = function(){ hopsTableNewRow() };
-    for(var i = 0; i < grainNames.length; i++) {
+    /*for(var i = 0; i < grainNames.length; i++) {
         var speciesOption = document.createElement('option');
         speciesOption.value = grainValues[i];
         speciesOption.innerHTML = grainNames[i];
         speciesComboBox.appendChild(speciesOption);
-    }
+    }*/
     speciesCell.appendChild(speciesComboBox);
     row.appendChild(speciesCell);
     // Define type cell
     var typeCell = document.createElement('td');
     var typeComboBox = document.createElement('select');
     typeComboBox.className = "comboBox";
-    for(var i = 0; i < typeNames.length; i++) {
+    /*for(var i = 0; i < typeNames.length; i++) {
         var typeOption = document.createElement('option');
         typeOption.value = typeValues[i];
         typeOption.innerHTML = typeNames[i];
         typeComboBox.appendChild(typeOption);
-    }
+    }*/
     typeComboBox.disabled = true;
     typeCell.appendChild(typeComboBox);
     row.appendChild(typeCell);

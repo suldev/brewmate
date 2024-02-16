@@ -1,31 +1,31 @@
-var grainValues: string[] = [
-    "none",
-    "paleMalt2Row",
-    "viennaMalt",
-    "20L",
-    "munichMalt",
-    "caraPilsDextrin",
-    "melanoidenMalt"
-]
+import { database } from './mongodb';
+export interface MongoGrain {
+    name: string;
+    colorSRM: string;
+    type: string;
+    potential: string;
+    notes: string;
+    uses: string;
+}
 
-var grainNames: string[] = [
-    "",
-    "Pale Malt (Brewers 2-row)",
-    "Vienna Malt",
-    "Crystal Malt 20L",
-    "Munich Malt",
-    "Cara-Pils Dextrin",
-    "Melanoiden Malt"
-]
+export async function getGrainNamesAsync(): Promise<string[] | undefined> {
+    const collection = database.collection<MongoGrain>("grain");
+    if(await collection.countDocuments({}) <= 0) {
+        return undefined;
+    }
+    const grains = await collection.find({}).toArray();
+    var grainNames: string[] = [];
+    grains.forEach(element => {
+        grainNames.push(element.name);
+    });
+    return grainNames;
+}
 
-var typeValues: string[] = [
-    "none",
-    "grain",
-    "extract"
-]
-
-var typeNames: string[] = [
-    "",
-    "Grain",
-    "Extract"
-]
+export async function getGrainAsync(Name: string): Promise<MongoGrain | undefined> {
+    const collection = database.collection<MongoGrain>("grain");
+    if(await collection.countDocuments({}) <= 0) {
+        return undefined;
+    }
+    const grain = await collection.findOne({name: Name}) as MongoGrain;
+    return grain;
+}
