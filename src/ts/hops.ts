@@ -1,4 +1,4 @@
-import { database } from './mongodb';
+import { database } from './mongodb'
 interface MongoHop {
     name: string;
     description: string;

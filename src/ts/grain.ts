@@ -1,4 +1,4 @@
-import { database } from './mongodb';
+import { database } from './mongodb'
 export interface MongoGrain {
     name: string;
     colorSRM: string;
