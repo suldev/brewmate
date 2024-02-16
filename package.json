@@ -1,7 +1,12 @@
 {
   "devDependencies": {
+    "@types/jest": "^29.5.12",
     "mongodb": "^6.3.0",
     "require": "^2.4.20",
+    "ts-jest": "^29.1.2",
     "typescript": "^5.3.3"
+  },
+  "scripts" : {
+    "test": "jest"
   }
 }

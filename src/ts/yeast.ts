@@ -1,7 +1,7 @@
 import { database } from './mongodb'
 export interface MongoYeast {
     name: string;
-    type: string;
+    yType: string;
     templo: string; //F
     temphi: string; //F
     attenuation: string;
