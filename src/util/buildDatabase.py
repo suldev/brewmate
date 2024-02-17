@@ -6,13 +6,14 @@ from pymongo.errors import ConnectionFailure
 import log
 
 #constants
-srcdir = os.path.join(os.getcwd(), '../res/')
+srcdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../res/')
 graindir = os.path.join(srcdir, 'grains/')
 hopsdir = os.path.join(srcdir, 'hops/')
 yeastsdir = os.path.join(srcdir, 'yeasts/')
 
 #configuration
 verbose = False
+simulate = False
 
 def pullHops(i: int):
     srcfile = hopsdir + 'hops_' + str(i) + '.html'
@@ -59,11 +60,25 @@ def parseHops(client: MongoClient) -> int:
             profile = sprofile.contents[0].contents[0].string + sprofile.contents[1].string
             spurpose = s.find('div', {'class': 'section first'}).contents[0].contents[1].contents[3]
             purpose = spurpose.contents[0].string + spurpose.contents[1].string
+            alpha = acids.contents[1].contents[1].string.split('-')
+            alphalo = alpha[0]
+            try:
+                alphahi = alpha[1][:-1]
+            except:
+                alphahi = alphalo
+            beta = acids.contents[3].contents[1].string.split('-')
+            betalo = beta[0]
+            try:
+                betahi = beta[1][:-1]
+            except:
+                betahi = betalo
             data = {
                 "name": s.find('a', {'target': '_blank'}).contents[0].string,
                 "description": s.find('p', {'class': 'characteristics'}).contents[0].string,
-                "alpha": acids.contents[1].contents[1].string,
-                "beta": acids.contents[3].contents[1].string,
+                "alphalo": alphalo,
+                "alphahi": alphahi,
+                "betalo": betalo,
+                "betahi": betahi,
                 "profile": profile,
                 "purpose": purpose
             }
@@ -113,10 +128,10 @@ def parseYeast(client: MongoClient) -> int:
                 bestfor = ''
             data = {
                 "name": doc.contents[i].contents[0].string,
-                "yType": doc.contents[i].contents[2].string,
-                "templo": doc.contents[i].contents[4].string.split()[0],
-                "temphi": doc.contents[i].contents[4].string.split()[2],
-                "attenuation": doc.contents[i].contents[5].string,
+                "type": doc.contents[i].contents[2].string,
+                "templo": doc.contents[i].contents[4].string.split()[0][:-2],
+                "temphi": doc.contents[i].contents[4].string.split()[2][:-2],
+                "attenuation": doc.contents[i].contents[5].string[:-1],
                 "flocculation": doc.contents[i].contents[6].string,
                 "note": note,
                 "bestfor": bestfor
@@ -149,6 +164,7 @@ def main():
     maxGrain = 89
     args = str(sys.argv)
     log.verbose = '-v' in args
+    simulate = '-s' in args
 # connect to remote database
     client = connectToDB()
     if '-p' in args or '-P' in args and '--nopull' not in args:
