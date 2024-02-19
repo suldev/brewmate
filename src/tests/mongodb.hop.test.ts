@@ -1,43 +1,51 @@
-import { getHopAsync, getHopNamesAsync } from '../ts/hops'
+import { BMMongo } from '../ts/mongodb'
 
-describe('testing getHopNamesAsync', () => {
+describe('mongodb hop fetch test', () => {
+    var hopTestPackage = new BMMongo('brewmate','password','192.168.1.10','brewmate');
+    hopTestPackage.connect();
     test('length should result in 318', () => {
-        getHopNamesAsync().then((names) => {
+        hopTestPackage.getHopNamesAsync().then((names) => {
             expect(names?.length).toBe(318);
-        })
-        .catch(() => fail('hop count failed'));
+        }).catch(() => {
+            fail('hop name count failed');
+        });
     });
-});
-
-describe('testing getHopAsync', () => {
     test('name should be Chinook', () => {
-        getHopAsync("Chinook").then((hop) => {
-            expect(hop?.name).toBe("Chinook");
-        })
-        .catch(() => fail('hop name failed'));
+        hopTestPackage.getHopAsync('Chinook').then((value) => {
+            expect(value?.name).toBe('Chinook');
+        }).catch(() => {
+            fail('hop name failed')
+        });
     });
     test('alphalo should be 11.5', () => {
-        getHopAsync("Chinook").then((hop) => {
-            expect(hop?.alphalo).toBe("11.5");
-        })
-        .catch(() => fail('hop alphalo failed'));
+        hopTestPackage.getHopAsync('Chinook').then((value) => {
+            expect(value?.alphalo).toBe('11.5');
+        }).catch(() => {
+            fail('hop alphalo failed')
+        });
     });
     test('alphahi should be 15', () => {
-        getHopAsync("Chinook").then((hop) => {
-            expect(hop?.alphahi).toBe("15");
-        })
-        .catch(() => fail('hop alphahi failed'));
+        hopTestPackage.getHopAsync('Chinook').then((value) => {
+            expect(value?.alphahi).toBe('15');
+        }).catch(() => {
+            fail('hop alphahi failed')
+        });
     });
     test('betalo should be 3.0', () => {
-        getHopAsync("Chinook").then((hop) => {
-            expect(hop?.betalo).toBe("3.0");
-        })
-        .catch(() => fail('hope beta failed'));
+        hopTestPackage.getHopAsync('Chinook').then((value) => {
+            expect(value?.betalo).toBe('3.0');
+        }).catch((error) => {
+            fail('hop betalo failed')
+        });
     });
     test('betahi should be 4.0', () => {
-        getHopAsync("Chinook").then((hop) => {
-            expect(hop?.betahi).toBe("4.0");
-        })
-        .catch(() => fail('hope beta failed'));
+        hopTestPackage.getHopAsync('Chinook').then((value) => {
+            expect(value?.betahi).toBe('4.0');
+        }).catch((error) => {
+            fail('hop betahi failed')
+        });
+    });
+    afterAll(() => {
+        hopTestPackage.disconnect();
     });
 });
