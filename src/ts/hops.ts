@@ -1,4 +1,3 @@
-import { database } from './mongodb'
 export interface Hop {
     name: string
     description: string

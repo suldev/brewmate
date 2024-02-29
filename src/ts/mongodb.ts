@@ -2,15 +2,6 @@ import { Db, MongoClient } from "mongodb";
 import { Grain } from './grain'
 import { Hop } from './hops'
 import { Yeast } from './yeast'
-var mongoUser = "brewmate";
-var mongoPasswd = "password";
-var mongoHost = "192.168.1.10";
-var mongoDb = "brewmate";
-var mongoPort = 27017;
-
-const uri = `mongodb://${mongoUser}:${mongoPasswd}@${mongoHost}:${mongoPort}/${mongoDb}`;
-const client = new MongoClient(uri);
-export const database = client.db(mongoDb);
 
 export class BMMongo {
     user: string;
@@ -42,78 +33,48 @@ export class BMMongo {
         }
     }
 
-    async getGrainNamesAsync(): Promise<string[] | undefined> {
-        const collection = database.collection<Grain>("grain");
-        return new Promise<string[] | undefined>(async(resolve, reject) => {
-            if(await collection.countDocuments({}) <= 0) {
-                reject('grains were not found at this location');
-            }
-            var grainNames: string[] = [];
-            const grains = await collection.find({}).toArray();
-            grains.forEach(element => {
-                grainNames.push(element.name);
-            });
-            resolve(grainNames);
+    async getGrainNamesAsync(): Promise<string[]> {
+        if(!this.#database) throw new Error('database not yet connected');
+        const collection = this.#database.collection<Grain>("grain");
+        var grainNames: string[] = [];
+        (await collection.find({}).toArray()).forEach(element => {
+            grainNames.push(element.name);
         });
+        return grainNames;
     }
 
-    async getGrainAsync(Name: string): Promise<Grain | undefined> {
-        const collection = database.collection<Grain>("grain");
-        return new Promise<Grain | undefined>(async(resolve, reject) => {
-            if(await collection.countDocuments({}) <= 0) {
-                reject('grain request failed: grain could not be found')
-            }
-            resolve(await collection.findOne({name: Name}) as Grain);
-        });
+    async getGrainAsync(Name: string): Promise<Grain> {
+        if(!this.#database) throw new Error('database not yet connected');
+        return await this.#database.collection<Grain>("grain").findOne({name: Name}) as Grain;
     }
 
-    async getHopNamesAsync(): Promise<string[] | undefined> {
-        const collection = database.collection<Hop>("hop");
-        return new Promise<string[] | undefined>(async(resolve, reject) => {
-            if(await collection.countDocuments({}) <= 0) {
-                reject('hops were not found at this location')
-            }
-            const hops = await collection.find({}).toArray();
-            var hopNames: string[] = [];
-            hops.forEach(element => {
-                hopNames.push(element.name);
-            });
-            resolve(hopNames);
+    async getHopNamesAsync(): Promise<string[]> {
+        if(!this.#database) throw new Error('database not yet connected');
+        const collection = this.#database.collection<Hop>("hop");
+        var hopNames: string[] = [];
+        (await collection.find({}).toArray()).forEach(element => {
+            hopNames.push(element.name);
         });
+        return hopNames;
     }
 
-    async getHopAsync(Name: string): Promise<Hop | undefined> {
-        const collection = database.collection<Hop>("hop");
-        return new Promise<Hop | undefined>(async(resolve, reject) => {
-            if(await collection.countDocuments({}) <= 0) {
-                reject('hop request failed: hop could not be found');
-            }
-            resolve(await collection.findOne({name: Name}) as Hop);
-        });
+    async getHopAsync(Name: string): Promise<Hop> {
+        if(!this.#database) throw new Error('database not yet connected');
+        return await this.#database.collection<Hop>("hop").findOne({name: Name}) as Hop;
     }
 
-    async getYeastNamesAsync(): Promise<string[] | undefined> {
-        const collection = database.collection<Yeast>("yeast");
-        return new Promise<string[] | undefined>(async(resolve, reject) => {
-            if(await collection.countDocuments({}) <= 0) {
-                reject('yeasts were not found at this location');
-            }
-            const yeasts = await collection.find({}).toArray();
-            var yeastNames: string[] = [];
-            yeasts.forEach(element => {
-                yeastNames.push(element.name);
-            });
-            resolve(yeastNames);
+    async getYeastNamesAsync(): Promise<string[]> {
+        if(!this.#database) throw new Error('database not yet connected');
+        const collection = this.#database.collection<Yeast>("yeast");
+        var yeastNames: string[] = [];
+        (await collection.find({}).toArray()).forEach(element => {
+            yeastNames.push(element.name);
         });
+        return yeastNames;
     }
 
-    async getYeastAsync(Name: string): Promise<Yeast | undefined> {
-        const collection = database.collection<Yeast>("yeast");
-        return new Promise<Yeast | undefined>(async(resolve,reject) => {
-            if(await collection.countDocuments({}) <= 0) {
-                reject('yeast request failed: yeast could not be found')
-            }
-            resolve(await collection.findOne({name: Name}) as Yeast);
-        });
+    async getYeastAsync(Name: string): Promise<Yeast> {
+        if(!this.#database) throw new Error('database not yet connected');
+        return await this.#database.collection<Yeast>("yeast").findOne({name: Name}) as Yeast;
     }
 }

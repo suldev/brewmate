@@ -1,13 +1,17 @@
 import { BMMongo } from '../ts/mongodb'
 
 describe('mongodb hop fetch test', () => {
-    var hopTestPackage = new BMMongo('brewmate','password','192.168.1.10','brewmate');
+    var hopTestPackage = new BMMongo('brewmate','password','0','brewmate');
     hopTestPackage.connect();
     test('length should result in 318', () => {
         hopTestPackage.getHopNamesAsync().then((names) => {
-            expect(names?.length).toBe(318);
-        }).catch(() => {
-            fail('hop name count failed');
+            if(names) {
+                expect(names?.length).toBe(318);
+            } else {
+                throw new Error('hop name list does not exist');
+            }
+        }).catch((error) => {
+            fail(error);
         });
     });
     test('name should be Chinook', () => {

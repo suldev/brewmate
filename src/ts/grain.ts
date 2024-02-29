@@ -1,4 +1,3 @@
-import { database } from './mongodb'
 export interface Grain {
     name: string
     colorSRM: number

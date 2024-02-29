@@ -1,5 +1,5 @@
 type SLHTMLTable = HTMLTableElement | null;
-import { MongoGrain, getGrainAsync, getGrainNamesAsync } from "./grain";
+//import { MongoGrain, getGrainAsync, getGrainNamesAsync } from "./grain";
 function initializeForm() {
     console.log("bork!");
     grainTableNewRow();
@@ -44,13 +44,13 @@ function grainTableNewRow() {
     typeComboBox.className = "comboBox";
     typeComboBox.disabled = true;
     var grains: string[] = [];
-    getGrainNamesAsync().then(
+    /*getGrainNamesAsync().then(
         (names) => { 
             if(names != undefined) {
                 grains = names; 
             }
         }
-    )
+    )*/
     for(const grain of grains) {
         var grainOption = document.createElement('option');
         grainOption.value = grain;

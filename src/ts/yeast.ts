@@ -1,4 +1,3 @@
-import { database } from './mongodb'
 export interface Yeast {
     name: string
     type: string

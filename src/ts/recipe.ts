@@ -1,8 +1,24 @@
-import { MongoGrain, getGrainAsync } from './grain'
-import { MongoHop } from './hops'
-import { MongoYeast } from './yeast'
+import { Grain } from "./grain";
+import { Hop } from "./hops";
+import { BMMongo } from "./mongodb";
+import { Yeast } from "./yeast";
+
+interface IGrain {
+    weightLbs: number,
+    grain: Grain
+}
+
+interface IHop {
+    weightOz: number,
+    hop: Hop
+}
+
+interface IYeast {
+    yeast: Yeast
+}
 
 export class Recipe {
+    #library: BMMongo;
     name: string;
     author?: string;
     date?: Date;
@@ -13,12 +29,52 @@ export class Recipe {
     preBoilVolume?: number;
     postBoilVolume?: number;
     finalVolume?: number;
-    grains?: [{weightLbs: number, grain: MongoGrain}];
-    hops?: [{weightOz: number, hop: MongoHop}];
-    yeasts?: [{yeast: MongoYeast}];
+    grains: IGrain[];
+    hops: IHop[];
+    yeasts: IYeast[];
 
     constructor(Name: string) {
         this.name = Name;
+        this.#library = new BMMongo('brewmate','password','1','brewmate');
+        this.grains = [];
+        this.hops = [];
+        this.yeasts = [];
+    }
+
+    async AddGrain(weightLbs: number, name: string) {
+        try {
+            var grain = await this.#library.getGrainAsync(name);
+            if(grain) {
+                return this.grains.push({weightLbs: 5, grain: grain});
+            }
+            throw new Error(`grain ${name} not found`);
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    async AddHop(weightLbs: number, name: string) {
+        try {
+            var hop = await this.#library.getHopAsync(name);
+            if(hop) {
+                return this.hops.push({weightOz: 5, hop: hop});
+            }
+            throw new Error(`hop ${name} not found`);
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    async AddYeast(name: string) {
+        try {
+            var yeast = await this.#library.getYeastAsync(name);
+            if(yeast) {
+                return this.yeasts.push({yeast: yeast});
+            }
+            throw new Error(`yeast ${name} not found`);
+        } catch(error) {
+            console.log(error);
+        }
     }
 
     AlcoholContent(): number {
