@@ -2,9 +2,8 @@ import { BMMongo } from '../ts/mongodb'
 
 describe('mongodb hop fetch test', () => {
     var hopTestPackage = new BMMongo('brewmate','password','192.168.1.10','brewmate');
-    beforeAll(async() => {
-        await hopTestPackage.connect();
-    });
+    hopTestPackage.connect();
+    
     test('length should result in 318', async() => {
         hopTestPackage.getHopNamesAsync().then((value) => {
             expect(value?.length).toBe(318);

@@ -2,9 +2,8 @@ import { BMMongo } from '../ts/mongodb'
 
 describe('mongodb grain fetch test', () => {
     var grainTestPackage = new BMMongo('brewmate','password','192.168.1.10','brewmate');
-    beforeAll(async() => {
-        await grainTestPackage.connect();
-    });
+    grainTestPackage.connect();
+    
     test('length should result in 89', async() => {
         await grainTestPackage.getGrainNamesAsync().then((value) => {
             expect(value?.length).toBe(89);

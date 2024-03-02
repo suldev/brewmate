@@ -36,19 +36,21 @@ export class Recipe {
 
     constructor(Name: string) {
         this.name = Name;
-        this.#library = new BMMongo('brewmate','password','192.168.1.10','brewmate');
         this.grains = [];
         this.hops = [];
         this.yeasts = [];
+        this.#library = new BMMongo('brewmate','password','192.168.1.10','brewmate');
         this.#connected = false;
     }
 
-    async ConnectToDB() {
-        await this.#library.connect();
+    connect() {
+        this.#library.connect();
+        this.#connected = true;
     }
 
     async Close() {
-        this.#library.disconnect();
+        await this.#library.disconnect();
+        this.#connected = false;
     }
 
     async AddGrain(weightLbs: number, name: string) {

@@ -2,10 +2,8 @@ import { Recipe } from '../ts/recipe'
 
 describe('testing recipe class', () => {
     var recipe: Recipe = new Recipe("test-recipe");
-    beforeAll(async() => {
-        recipe.ConnectToDB();
-    });
-    
+    recipe.connect();
+
     test('recipe name should be test-recipe', () => {
         expect(recipe.name).toBe('test-recipe');
     });

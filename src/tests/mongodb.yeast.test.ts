@@ -2,9 +2,8 @@ import { BMMongo } from '../ts/mongodb'
 
 describe('mongodb yeast fetch test ', () => {
     var yeastTestPackage = new BMMongo('brewmate','password','192.168.1.10','brewmate');
-    beforeAll(async() => {
-        await yeastTestPackage.connect();
-    });
+    yeastTestPackage.connect();
+    
     test('length should result in 232', async() => {
         await yeastTestPackage.getYeastNamesAsync().then((value) => {
             expect(value?.length).toBe(232);
