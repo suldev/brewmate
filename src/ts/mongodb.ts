@@ -22,14 +22,14 @@ export class BMMongo {
         }
     }
 
-    connect() {
+    async connect() {
         this.#client = new MongoClient(`mongodb://${this.user}:${this.passwd}@${this.host}:${this.port}/${this.db}`);
-        this.#database = this.#client.db(this.db);
+        this.#database = await this.#client.db(this.db);
     }
 
-    disconnect() {
+    async disconnect() {
         if(this.#client) {
-            this.#client.close();
+            await this.#client.close();
         }
     }
 

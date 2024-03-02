@@ -19,6 +19,7 @@ interface IYeast {
 
 export class Recipe {
     #library: BMMongo;
+    #connected: Boolean;
     name: string;
     author?: string;
     date?: Date;
@@ -35,17 +36,26 @@ export class Recipe {
 
     constructor(Name: string) {
         this.name = Name;
-        this.#library = new BMMongo('brewmate','password','1','brewmate');
+        this.#library = new BMMongo('brewmate','password','192.168.1.10','brewmate');
         this.grains = [];
         this.hops = [];
         this.yeasts = [];
+        this.#connected = false;
+    }
+
+    async ConnectToDB() {
+        await this.#library.connect();
+    }
+
+    async Close() {
+        this.#library.disconnect();
     }
 
     async AddGrain(weightLbs: number, name: string) {
         try {
             var grain = await this.#library.getGrainAsync(name);
             if(grain) {
-                return this.grains.push({weightLbs: 5, grain: grain});
+                return this.grains.push({weightLbs: weightLbs, grain: grain});
             }
             throw new Error(`grain ${name} not found`);
         } catch(error) {
@@ -53,11 +63,11 @@ export class Recipe {
         }
     }
 
-    async AddHop(weightLbs: number, name: string) {
+    async AddHop(weightOz: number, name: string) {
         try {
             var hop = await this.#library.getHopAsync(name);
             if(hop) {
-                return this.hops.push({weightOz: 5, hop: hop});
+                return this.hops.push({weightOz: weightOz, hop: hop});
             }
             throw new Error(`hop ${name} not found`);
         } catch(error) {

@@ -1,10 +1,11 @@
 import { Recipe } from '../ts/recipe'
 
-describe('testing getGrainNamesAsync', () => {
-    afterAll(() => {
-        
-    })
+describe('testing recipe class', () => {
     var recipe: Recipe = new Recipe("test-recipe");
+    beforeAll(async() => {
+        recipe.ConnectToDB();
+    });
+    
     test('recipe name should be test-recipe', () => {
         expect(recipe.name).toBe('test-recipe');
     });
@@ -16,34 +17,31 @@ describe('testing getGrainNamesAsync', () => {
     test('recipe description should be This is a self-test recipe', () => {
         expect(recipe.description).toBe('This is a self-test recipe');
     });
-    recipe.AddGrain(2, "Caramel/Crystal Malt - 40L")
-    .then(() => {
-        test('recipe grain#1 should be Caramel/Crystal Malt - 40L', () => {
+    test('recipe grain#1 should be 2 lb Caramel/Crystal Malt - 40L', async() => {
+        await recipe.AddGrain(2, "Caramel/Crystal Malt - 40L").then(() => {
             expect(recipe.grains[0].grain.name).toBe("Caramel/Crystal Malt - 40L");
+            expect(recipe.grains[0].weightLbs).toBe(2);
         });
     });
-    recipe.AddGrain(12, "Pale Malt (2 Row) US")
-    .then(() => {
-        test('recipe grain#2 should be Pale Malt (2 Row) US', () => {
+    test('recipe grain#2 should be 10 lb Pale Malt (2 Row) US', async() => {
+        await recipe.AddGrain(10, "Pale Malt (2 Row) US").then(() => {
             expect(recipe.grains[1].grain.name).toBe("Pale Malt (2 Row) US");
-        })
+            expect(recipe.grains[1].weightLbs).toBe(10);
+        });
     });
-    recipe.AddHop(1, "Simcoe")
-    .then(() => {
-        test('recipe hop#1 should be Simcoe', () => {
-            expect(recipe.hops[1].hop.name).toBe("Simcoe");
-        })
+    test('recipe hop#1 should be 1.0 oz Simcoe', async() => {
+        await recipe.AddHop(1, "Simcoe").then(() => {
+            expect(recipe.hops[0].hop.name).toBe("Simcoe");
+            expect(recipe.hops[0].weightOz).toBe(1);
+        });
     });
-    recipe.AddHop(0.5, "Citra")
-    .then(() => {
-        test('recipe hop#1 should be Citra', () => {
+    test('recipe hop#1 should be 0.5 oz Citra', async() => {
+        await recipe.AddHop(0.5, "Citra").then(() => {
             expect(recipe.hops[1].hop.name).toBe("Citra");
-        })
-    });;
-    recipe.AddYeast("1318 London Ale III")
-    .then(() => {
-        test('recipe yeast should be 1318 London Ale III', () => {
-            expect(recipe.hops[1].hop.name).toBe("1318 London Ale III");
-        })
+            expect(recipe.hops[1].weightOz).toBe(0.5);
+        });
+    });
+    afterAll(async() => {
+        recipe.Close();
     });
 })
